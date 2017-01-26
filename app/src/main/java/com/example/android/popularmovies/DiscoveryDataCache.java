@@ -73,14 +73,16 @@ public class DiscoveryDataCache {
     }
 
     public void loadNextPage(){
-        int nextPage = discoveryResponses.size() + 1;
+        if(!loadingNewData) {
+            int nextPage = discoveryResponses.size() + 1;
 
-        try {
-            if(discoveryResponses.size() == 0 || (discoveryResponses.size() > 0 && discoveryResponses.get(0).getTotalPages() >= nextPage)) {
-                new DiscoveryRequest().execute(nextPage);
+            try {
+                if (discoveryResponses.size() == 0 || (discoveryResponses.size() > 0 && discoveryResponses.get(0).getTotalPages() >= nextPage)) {
+                    new DiscoveryRequest().execute(nextPage);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 
